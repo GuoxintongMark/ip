@@ -11,7 +11,7 @@ public class Lucy {
         System.out.println("-> What can I do for you?");
         System.out.println("____________________________________________________________");
 
-        String[] tasks = new String[100];
+        Task[] tasks = new Task[100];
         int count = 0;// the number of the stored tasks
 
         while (true) {
@@ -25,27 +25,39 @@ public class Lucy {
                 break;
             } else if (command.equalsIgnoreCase("list")) {
                 System.out.println("____________________________________________________________");
+
                 if (count == 0) {
                     System.out.println("-> No tasks yet!");
                 } else {
+                    System.out.println("-> Here are the tasks in your list:");
                     for (int i = 0; i < count; i++) {
                         System.out.println("-> " + (i + 1) + ". " + tasks[i]);
                     }
                 }
                 System.out.println("____________________________________________________________");
+            } else if (command.startsWith("mark ")) {
+                int index = Integer.parseInt(command.substring(5)) - 1;
+                tasks[index].markAsDone();
+
+                System.out.println("____________________________________________________________");
+                System.out.println("-> Nice! I've marked this task as done:");
+                System.out.println("->   " + tasks[index]);
+                System.out.println("____________________________________________________________");
+            } else if (command.startsWith("unmark ")) {
+                int index = Integer.parseInt(command.substring(7)) - 1;
+                tasks[index].markUnDone();
+
+                System.out.println("____________________________________________________________");
+                System.out.println("-> OK, I've marked this task as not done yet:");
+                System.out.println("->   " + tasks[index]);
+                System.out.println("____________________________________________________________");
             } else {
-                // add new tasks
-                if (count < tasks.length) {
-                    tasks[count] = command;
-                    count++;
-                    System.out.println("____________________________________________________________");
-                    System.out.println("-> added: " + command);
-                    System.out.println("____________________________________________________________");
-                } else {
-                    System.out.println("____________________________________________________________");
-                    System.out.println("-> Task list is full!");
-                    System.out.println("____________________________________________________________");
-                }
+                tasks[count] = new Task(command);
+                count++;
+
+                System.out.println("____________________________________________________________");
+                System.out.println(" added: " + command);
+                System.out.println("____________________________________________________________");
             }
 
             // Echo command back
