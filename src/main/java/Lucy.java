@@ -2,6 +2,18 @@ import java.util.Scanner;
 
 public class Lucy {
 
+    private static void printAddMessage(Task task, int count) {
+        System.out.println("____________________________________________________________");
+        System.out.println("-> Got it. I've added this task:");
+        System.out.println("->   " + task);
+        if (count == 1) {
+            System.out.println("-> Now you have " + count + " task in the list.");
+        } else {
+            System.out.println("-> Now you have " + count + " tasks in the list.");
+        }
+        System.out.println("____________________________________________________________");
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -51,13 +63,26 @@ public class Lucy {
                 System.out.println("-> OK, I've marked this task as not done yet:");
                 System.out.println("->   " + tasks[index]);
                 System.out.println("____________________________________________________________");
-            } else {
-                tasks[count] = new Task(command);
-                count++;
+            } else if (command.startsWith("todo ")) {
+                String desc = command.substring(5).trim();
+                tasks[count++] = new Todo(desc);
 
-                System.out.println("____________________________________________________________");
-                System.out.println(" added: " + command);
-                System.out.println("____________________________________________________________");
+                printAddMessage(tasks[count - 1], count);
+            } else if (command.startsWith("deadline ")) {
+                String[] parts = command.substring(9).split(" /by ");
+                String desc = parts[0].trim();
+                String by = parts[1].trim();
+
+                tasks[count++] = new Deadline(desc, by);
+                printAddMessage(tasks[count - 1], count);
+            } else if (command.startsWith("event ")) {
+                String[] parts = command.substring(6).split(" /from | /to ");
+                String desc = parts[0].trim();
+                String from = parts[1].trim();
+                String to = parts[2].trim();
+
+                tasks[count++] = new Event(desc, from, to);
+                printAddMessage(tasks[count - 1], count);
             }
 
             // Echo command back
