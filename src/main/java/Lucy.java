@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Lucy {
@@ -16,14 +17,12 @@ public class Lucy {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        ArrayList<Task> tasks = new ArrayList<>();
 
         printLine();
         System.out.println("-> Hello! I'm Lucy. (′゜ω。‵)");
         System.out.println("-> What can I do for you?");
         printLine();
-
-        Task[] tasks = new Task[100];
-        int count = 0;
 
         while (true) {
             try {
@@ -36,75 +35,88 @@ public class Lucy {
                     break;
                 }
 
-                else if (command.equals("list")) {
+                if (command.equals("list")) {
                     printLine();
-                    if (count == 0) {
+                    if (tasks.isEmpty()) {
                         System.out.println("-> No tasks yet!");
                     } else {
                         System.out.println("-> Here are the tasks in your list:");
-                        for (int i = 0; i < count; i++) {
-                            System.out.println("-> " + (i + 1) + "." + tasks[i]);
+                        for (int i = 0; i < tasks.size(); i++) {
+                            System.out.println("-> " + (i + 1) + ". " + tasks.get(i));
                         }
                     }
                     printLine();
+                    continue;
                 }
 
-                else if (command.equals("todo")) {
-                    throw new LucyException("The description of <todo> cannot be empty.");
-                }
+                if (command.startsWith("mark ")) {
+                    int index = parseIndex(command, 5, tasks.size());
+                    tasks.get(index).markAsDone();
 
-                else if (command.startsWith("todo ")) {
-                    String desc = command.substring(5).trim();
-                    if (desc.isEmpty()) {
-                        throw new LucyException("The description of <todo> cannot be empty.");
-                    }
-                    tasks[count++] = new Todo(desc);
-                    printAddMessage(tasks[count - 1], count);
-                }
-
-                else if (command.startsWith("deadline ")) {
-                    String[] parts = command.substring(9).split(" /by ");
-                    if (parts.length < 2) {
-                        throw new LucyException("<Deadline> must have /by <time>.");
-                    }
-                    tasks[count++] = new Deadline(parts[0].trim(), parts[1].trim());
-                    printAddMessage(tasks[count - 1], count);
-                }
-
-                else if (command.startsWith("event ")) {
-                    String[] parts = command.substring(6).split(" /from | /to ");
-                    if (parts.length < 3) {
-                        throw new LucyException("<Event> must have /from <start> /to <end>.");
-                    }
-                    tasks[count++] = new Event(
-                            parts[0].trim(),
-                            parts[1].trim(),
-                            parts[2].trim()
-                    );
-                    printAddMessage(tasks[count - 1], count);
-                }
-
-                else if (command.startsWith("mark ")) {
-                    int index = parseIndex(command.substring(5), count);
-                    tasks[index].markAsDone();
                     printLine();
                     System.out.println("-> Nice! I've marked this task as done:");
-                    System.out.println("->   " + tasks[index]);
+                    System.out.println("->   " + tasks.get(index));
                     printLine();
+                    continue;
                 }
 
-                else if (command.startsWith("unmark ")) {
-                    int index = parseIndex(command.substring(7), count);
-                    tasks[index].markUnDone();
+                if (command.startsWith("unmark ")) {
+                    int index = parseIndex(command, 7, tasks.size());
+                    tasks.get(index).markUnDone();
+
                     printLine();
                     System.out.println("-> OK, I've marked this task as not done yet:");
-                    System.out.println("->   " + tasks[index]);
+                    System.out.println("->   " + tasks.get(index));
                     printLine();
+                    continue;
                 }
 
-                else {
-                    throw new LucyException("I'm sorry, but I don't know what that means :-(");
+                if (command.startsWith("delete ")) {
+                    int index = parseIndex(command, 7, tasks.size());
+                    Task removed = tasks.remove(index);
+
+                    printLine();
+                    System.out.println("-> Noted. I've removed this task:");
+                    System.out.println("->   " + removed);
+                    System.out.println("-> Now you have " + tasks.size() + (tasks.size() == 1 ? " task" : " tasks") + " in the list.");
+                    printLine();
+                    continue;
                 }
+
+                if (command.startsWith("todo ")) {
+                    String desc = command.substring(5).trim();
+                    if (desc.isEmpty()) {
+                        throw new LucyException("The description of a todo cannot be empty.");
+                    }
+                    Task task = new Todo(desc);
+                    tasks.add(task);
+                    printAddMessage(task, tasks.size());
+                    continue;
+                }
+
+                if (command.startsWith("deadline ")) {
+                    String[] parts = command.substring(9).split(" /by ");
+                    if (parts.length < 2) {
+                        throw new LucyException("Deadline must have /by.");
+                    }
+                    Task task = new Deadline(parts[0].trim(), parts[1].trim());
+                    tasks.add(task);
+                    printAddMessage(task, tasks.size());
+                    continue;
+                }
+
+                if (command.startsWith("event ")) {
+                    String[] parts = command.substring(6).split(" /from | /to ");
+                    if (parts.length < 3) {
+                        throw new LucyException("Event must have /from and /to.");
+                    }
+                    Task task = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
+                    tasks.add(task);
+                    printAddMessage(task, tasks.size());
+                    continue;
+                }
+
+                throw new LucyException("I'm sorry, but I don't know what that means :-(");
 
             } catch (LucyException e) {
                 printLine();
@@ -116,11 +128,11 @@ public class Lucy {
         scanner.close();
     }
 
-    private static int parseIndex(String input, int count) throws LucyException {
+    private static int parseIndex(String command, int start, int size) throws LucyException {
         try {
-            int index = Integer.parseInt(input.trim()) - 1;
-            if (index < 0 || index >= count) {
-                throw new LucyException("Task number is out of range.");
+            int index = Integer.parseInt(command.substring(start).trim()) - 1;
+            if (index < 0 || index >= size) {
+                throw new LucyException("That task number does not exist.");
             }
             return index;
         } catch (NumberFormatException e) {
