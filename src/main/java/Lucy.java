@@ -78,16 +78,14 @@ public class Lucy {
                     printLine();
                     System.out.println("-> Noted. I've removed this task:");
                     System.out.println("->   " + removed);
-                    System.out.println("-> Now you have " + tasks.size() + (tasks.size() == 1 ? " task" : " tasks") + " in the list.");
+                    System.out.println("-> Now you have " + tasks.size() + " tasks in the list.");
                     printLine();
                     continue;
                 }
 
                 if (command.startsWith("todo ")) {
                     String desc = command.substring(5).trim();
-                    if (desc.isEmpty()) {
-                        throw new LucyException("The description of a todo cannot be empty.");
-                    }
+                    if (desc.isEmpty()) throw new LucyException("The description of a todo cannot be empty.");
                     Task task = new Todo(desc);
                     tasks.add(task);
                     printAddMessage(task, tasks.size());
@@ -96,9 +94,7 @@ public class Lucy {
 
                 if (command.startsWith("deadline ")) {
                     String[] parts = command.substring(9).split(" /by ");
-                    if (parts.length < 2) {
-                        throw new LucyException("Deadline must have /by.");
-                    }
+                    if (parts.length < 2) throw new LucyException("Deadline must have /by.");
                     Task task = new Deadline(parts[0].trim(), parts[1].trim());
                     tasks.add(task);
                     printAddMessage(task, tasks.size());
@@ -107,9 +103,7 @@ public class Lucy {
 
                 if (command.startsWith("event ")) {
                     String[] parts = command.substring(6).split(" /from | /to ");
-                    if (parts.length < 3) {
-                        throw new LucyException("Event must have /from and /to.");
-                    }
+                    if (parts.length < 3) throw new LucyException("Event must have /from and /to.");
                     Task task = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
                     tasks.add(task);
                     printAddMessage(task, tasks.size());
@@ -131,9 +125,7 @@ public class Lucy {
     private static int parseIndex(String command, int start, int size) throws LucyException {
         try {
             int index = Integer.parseInt(command.substring(start).trim()) - 1;
-            if (index < 0 || index >= size) {
-                throw new LucyException("That task number does not exist.");
-            }
+            if (index < 0 || index >= size) throw new LucyException("That task number does not exist.");
             return index;
         } catch (NumberFormatException e) {
             throw new LucyException("Please provide a valid task number.");
