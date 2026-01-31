@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.List;
 
 public class Lucy {
 
@@ -17,7 +18,13 @@ public class Lucy {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Task> tasks = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
+
+        try {
+            tasks = Storage.load();
+        } catch (LucyException e) {
+            System.out.println("-> " + e.getMessage());
+        }
 
         printLine();
         System.out.println("-> Hello! I'm Lucy. (′゜ω。‵)");
@@ -52,6 +59,7 @@ public class Lucy {
                 if (command.startsWith("mark ")) {
                     int index = parseIndex(command, 5, tasks.size());
                     tasks.get(index).markAsDone();
+                    Storage.save(tasks);
 
                     printLine();
                     System.out.println("-> Nice! I've marked this task as done:");
@@ -63,6 +71,7 @@ public class Lucy {
                 if (command.startsWith("unmark ")) {
                     int index = parseIndex(command, 7, tasks.size());
                     tasks.get(index).markUnDone();
+                    Storage.save(tasks);
 
                     printLine();
                     System.out.println("-> OK, I've marked this task as not done yet:");
@@ -74,6 +83,7 @@ public class Lucy {
                 if (command.startsWith("delete ")) {
                     int index = parseIndex(command, 7, tasks.size());
                     Task removed = tasks.remove(index);
+                    Storage.save(tasks);
 
                     printLine();
                     System.out.println("-> Noted. I've removed this task:");
@@ -85,27 +95,36 @@ public class Lucy {
 
                 if (command.startsWith("todo ")) {
                     String desc = command.substring(5).trim();
-                    if (desc.isEmpty()) throw new LucyException("The description of a todo cannot be empty.");
+                    if (desc.isEmpty()) {
+                        throw new LucyException("The description of a todo cannot be empty.");
+                    }
                     Task task = new Todo(desc);
                     tasks.add(task);
+                    Storage.save(tasks);
                     printAddMessage(task, tasks.size());
                     continue;
                 }
 
                 if (command.startsWith("deadline ")) {
                     String[] parts = command.substring(9).split(" /by ");
-                    if (parts.length < 2) throw new LucyException("Deadline must have /by.");
+                    if (parts.length < 2) {
+                        throw new LucyException("Deadline must have /by.");
+                    }
                     Task task = new Deadline(parts[0].trim(), parts[1].trim());
                     tasks.add(task);
+                    Storage.save(tasks);
                     printAddMessage(task, tasks.size());
                     continue;
                 }
 
                 if (command.startsWith("event ")) {
                     String[] parts = command.substring(6).split(" /from | /to ");
-                    if (parts.length < 3) throw new LucyException("Event must have /from and /to.");
+                    if (parts.length < 3) {
+                        throw new LucyException("Event must have /from and /to.");
+                    }
                     Task task = new Event(parts[0].trim(), parts[1].trim(), parts[2].trim());
                     tasks.add(task);
+                    Storage.save(tasks);
                     printAddMessage(task, tasks.size());
                     continue;
                 }
@@ -125,7 +144,9 @@ public class Lucy {
     private static int parseIndex(String command, int start, int size) throws LucyException {
         try {
             int index = Integer.parseInt(command.substring(start).trim()) - 1;
-            if (index < 0 || index >= size) throw new LucyException("That task number does not exist.");
+            if (index < 0 || index >= size) {
+                throw new LucyException("That task number does not exist.");
+            }
             return index;
         } catch (NumberFormatException e) {
             throw new LucyException("Please provide a valid task number.");
