@@ -21,6 +21,10 @@ public class Task {
         isDone = false;
     }
 
+    public String toFileString() {
+        return "";
+    }
+
     @Override
     public String toString() {
         return "[" + taskType.getIcon() + "][" + getStatusIcon() + "] " + description;
