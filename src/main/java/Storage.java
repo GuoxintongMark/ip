@@ -1,24 +1,27 @@
 import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Storage {
+    private static final String DIR = "data";
+    private static final String FILE = "data/lucy.txt";
 
-    private static final String DATA_DIR = "data";
-    private static final String FILE_PATH = "data/lucy.txt";
+    private static final DateTimeFormatter DATE_FORMAT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter DATETIME_FORMAT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
 
-    public static List<Task> load() throws LucyException {
-        List<Task> tasks = new ArrayList<>();
+    public static ArrayList<Task> load() throws LucyException {
+        ArrayList<Task> tasks = new ArrayList<>();
 
-        File dir = new File(DATA_DIR);
-        if (!dir.exists()) {
-            dir.mkdir();
-        }
+        File dir = new File(DIR);
+        if (!dir.exists()) dir.mkdirs();
 
-        File file = new File(FILE_PATH);
-        if (!file.exists()) {
-            return tasks;
-        }
+        File file = new File(FILE);
+        if (!file.exists()) return tasks;
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
@@ -33,9 +36,9 @@ public class Storage {
     }
 
     public static void save(List<Task> tasks) throws LucyException {
-        try (PrintWriter pw = new PrintWriter(new FileWriter(FILE_PATH))) {
-            for (Task task : tasks) {
-                pw.println(task.toFileString());
+        try (PrintWriter pw = new PrintWriter(new FileWriter(FILE))) {
+            for (Task t : tasks) {
+                pw.println(t.toFileString());
             }
         } catch (IOException e) {
             throw new LucyException("Failed to save data file.");
@@ -45,24 +48,42 @@ public class Storage {
     private static Task parseLine(String line) throws LucyException {
         String[] parts = line.split(" \\| ");
 
-        switch (parts[0]) {
+        if (parts.length < 3) {
+            throw new LucyException("Corrupted data file.");
+        }
+
+        String type = parts[0];
+        String done = parts[1];
+        String desc = parts[2];
+
+        Task task;
+
+        switch (type) {
             case "T":
-                Todo t = new Todo(parts[2]);
-                if (parts[1].equals("1")) t.markAsDone();
-                return t;
+                task = new Todo(desc);
+                break;
 
             case "D":
-                Deadline d = new Deadline(parts[2], parts[3]);
-                if (parts[1].equals("1")) d.markAsDone();
-                return d;
+                if (parts.length < 4) throw new LucyException("Corrupted data file.");
+                LocalDate by = LocalDate.parse(parts[3], DATE_FORMAT);
+                task = new Deadline(desc, by);
+                break;
 
             case "E":
-                Event e = new Event(parts[2], parts[3], parts[4]);
-                if (parts[1].equals("1")) e.markAsDone();
-                return e;
+                if (parts.length < 5) throw new LucyException("Corrupted data file.");
+                LocalDateTime from = LocalDateTime.parse(parts[3], DATETIME_FORMAT);
+                LocalDateTime to = LocalDateTime.parse(parts[4], DATETIME_FORMAT);
+                task = new Event(desc, from, to);
+                break;
 
             default:
                 throw new LucyException("Corrupted data file.");
         }
+
+        if ("1".equals(done)) task.markAsDone();
+        else if ("0".equals(done)) task.markUnDone();
+        else throw new LucyException("Corrupted data file.");
+
+        return task;
     }
 }
