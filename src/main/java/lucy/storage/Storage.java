@@ -1,3 +1,11 @@
+package lucy.storage;
+
+import lucy.exception.LucyException;
+import lucy.task.Deadline;
+import lucy.task.Event;
+import lucy.task.Task;
+import lucy.task.Todo;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

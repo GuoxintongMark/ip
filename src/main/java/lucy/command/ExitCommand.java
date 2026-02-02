@@ -1,3 +1,8 @@
+package lucy.command;
+
+import lucy.task.Task;
+import lucy.ui.Ui;
+
 import java.util.ArrayList;
 
 public class ExitCommand extends Command {

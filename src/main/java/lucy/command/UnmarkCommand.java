@@ -1,3 +1,10 @@
+package lucy.command;
+
+import lucy.exception.LucyException;
+import lucy.storage.Storage;
+import lucy.task.Task;
+import lucy.ui.Ui;
+
 import java.util.ArrayList;
 
 public class UnmarkCommand extends Command {

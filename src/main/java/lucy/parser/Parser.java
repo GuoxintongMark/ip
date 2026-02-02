@@ -1,3 +1,8 @@
+package lucy.parser;
+
+import lucy.command.*;
+import lucy.exception.LucyException;
+
 public class Parser {
 
     public Command parse(String input) throws LucyException {
@@ -17,14 +22,14 @@ public class Parser {
         if (input.startsWith("deadline")) {
             String rest = after(input, "deadline");
             String[] parts = rest.split(" /by ");
-            if (parts.length < 2) throw new LucyException("Deadline must have /by.");
+            if (parts.length < 2) throw new LucyException("lucy.task.Deadline must have /by.");
             return new AddDeadlineCommand(parts[0].trim(), parts[1].trim());
         }
 
         if (input.startsWith("event")) {
             String rest = after(input, "event");
             String[] parts = rest.split(" /from | /to ");
-            if (parts.length < 3) throw new LucyException("Event must have /from and /to.");
+            if (parts.length < 3) throw new LucyException("lucy.task.Event must have /from and /to.");
             return new AddEventCommand(parts[0].trim(), parts[1].trim(), parts[2].trim());
         }
 

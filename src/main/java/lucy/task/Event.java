@@ -1,3 +1,7 @@
+package lucy.task;
+
+import lucy.exception.LucyException;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -21,14 +25,14 @@ public class Event extends Task {
             throw new LucyException("Invalid event time format. Use yyyy-MM-dd HHmm.");
         }
         if (to.isBefore(from)) {
-            throw new LucyException("Event end time must be after start time.");
+            throw new LucyException("lucy.task.Event end time must be after start time.");
         }
     }
 
     public Event(String description, LocalDateTime from, LocalDateTime to) throws LucyException {
         super(description, TaskType.EVENT);
         if (to.isBefore(from)) {
-            throw new LucyException("Event end time must be after start time.");
+            throw new LucyException("lucy.task.Event end time must be after start time.");
         }
         this.from = from;
         this.to = to;
