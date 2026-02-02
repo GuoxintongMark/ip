@@ -1,4 +1,14 @@
+package lucy;
+
+import lucy.command.Command;
+import lucy.exception.LucyException;
+import lucy.parser.Parser;
+import lucy.storage.Storage;
+import lucy.task.Task;
+import lucy.ui.Ui;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class LucyApp {
     private final Ui ui = new Ui();

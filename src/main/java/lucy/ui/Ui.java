@@ -1,3 +1,7 @@
+package lucy.ui;
+
+import lucy.task.Task;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,7 +14,7 @@ public class Ui {
 
     public void showWelcome() {
         printLine();
-        System.out.println("-> Hello! I'm Lucy. (′゜ω。‵)");
+        System.out.println("-> Hello! I'm lucy.Lucy. (′゜ω。‵)");
         System.out.println("-> What can I do for you?");
         printLine();
     }

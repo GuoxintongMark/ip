@@ -1,9 +1,16 @@
+package lucy.command;
+
+import lucy.exception.LucyException;
+import lucy.storage.Storage;
+import lucy.task.Task;
+import lucy.ui.Ui;
+
 import java.util.ArrayList;
 
-public class MarkCommand extends Command {
+public class DeleteCommand extends Command {
     private final int index;
 
-    public MarkCommand(int index) {
+    public DeleteCommand(int index) {
         this.index = index;
     }
 
@@ -12,9 +19,8 @@ public class MarkCommand extends Command {
         if (index < 0 || index >= tasks.size()) {
             throw new LucyException("That task number does not exist.");
         }
-        Task task = tasks.get(index);
-        task.markAsDone();
+        Task removed = tasks.remove(index);
         Storage.save(tasks);
-        ui.showMarked(task, true);
+        ui.showDeleted(removed, tasks.size());
     }
 }
