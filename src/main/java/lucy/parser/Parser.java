@@ -33,6 +33,15 @@ public class Parser {
             return new AddEventCommand(parts[0].trim(), parts[1].trim(), parts[2].trim());
         }
 
+        if (input.startsWith("find")) {
+            String keyword = input.length() > 4 ? input.substring(4).trim() : "";
+            if (keyword.isEmpty()) {
+                throw new LucyException("Find keyword cannot be empty.");
+            }
+            return new FindCommand(keyword);
+        }
+
+
         if (input.startsWith("mark")) {
             String idxStr = after(input, "mark");
             int idx = parseIndex(idxStr);

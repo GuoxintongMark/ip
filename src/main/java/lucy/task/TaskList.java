@@ -72,6 +72,24 @@ public class TaskList {
         return removed;
     }
 
+    /**
+     * Finds tasks whose descriptions contain the given keyword (case-insensitive).
+     *
+     * @param keyword Keyword to search for.
+     * @return List of matching tasks.
+     */
+    public List<Task> find(String keyword) {
+        String key = keyword.toLowerCase();
+        List<Task> matches = new ArrayList<>();
+        for (Task t : tasks) {
+            if (t.description.toLowerCase().contains(key)) {
+                matches.add(t);
+            }
+        }
+        return matches;
+    }
+
+
     public List<Task> asUnmodifiableList() {
         return List.copyOf(tasks);
     }

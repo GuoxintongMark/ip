@@ -67,6 +67,19 @@ public class Ui {
         printLine();
     }
 
+    public void showFindResults(List<Task> matches) {
+        printLine();
+        if (matches.isEmpty()) {
+            System.out.println("-> No matching tasks found.");
+        } else {
+            System.out.println("-> Here are the matching tasks in your list:");
+            for (int i = 0; i < matches.size(); i++) {
+                System.out.println("-> " + (i + 1) + ". " + matches.get(i));
+            }
+        }
+        printLine();
+    }
+
     public void showDeleted(Task removed, int remaining) {
         printLine();
         System.out.println("-> Noted. I've removed this task:");
