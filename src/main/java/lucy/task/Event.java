@@ -7,6 +7,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
+/**
+ * Represents an event task with a start and end date-time.
+ * An event occurs over a specific time period.
+ */
 public class Event extends Task {
     private static final DateTimeFormatter INPUT_FORMAT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
@@ -16,6 +20,14 @@ public class Event extends Task {
     private final LocalDateTime from;
     private final LocalDateTime to;
 
+    /**
+     * Creates an event task using date-time strings.
+     *
+     * @param description Description of the task.
+     * @param fromStr Start date-time in yyyy-MM-dd HHmm format.
+     * @param toStr End date-time in yyyy-MM-dd HHmm format.
+     * @throws LucyException If the date-time strings are invalid, or the end time is before the start time.
+     */
     public Event(String description, String fromStr, String toStr) throws LucyException {
         super(description, TaskType.EVENT);
         try {
@@ -29,6 +41,14 @@ public class Event extends Task {
         }
     }
 
+    /**
+     * Creates an event task with a start and end date-time.
+     *
+     * @param description Description of the task.
+     * @param from Start date and time of the event.
+     * @param to End date and time of the event.
+     * @throws LucyException If the end time is before the start time.
+     */
     public Event(String description, LocalDateTime from, LocalDateTime to) throws LucyException {
         super(description, TaskType.EVENT);
         if (to.isBefore(from)) {
