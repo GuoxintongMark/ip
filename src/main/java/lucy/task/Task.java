@@ -1,10 +1,20 @@
 package lucy.task;
 
+/**
+ * Represents a generic task in the task list.
+ * A task has a description, a completion status, and a task type.
+ */
 public abstract class Task {
     protected String description;
     protected boolean isDone;
     protected TaskType type;
 
+    /**
+     * Creates a task with the given description and task type.
+     *
+     * @param description Description of the task.
+     * @param type Type of the task.
+     */
     public Task(String description, TaskType type) {
         this.description = description;
         this.type = type;
