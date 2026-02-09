@@ -1,9 +1,9 @@
 package lucy.task;
 
-import lucy.exception.LucyException;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import lucy.exception.LucyException;
 
 /**
  * Represents a list of tasks in the application.

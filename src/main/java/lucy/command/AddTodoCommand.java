@@ -1,13 +1,16 @@
 package lucy.command;
 
+import java.util.ArrayList;
+
 import lucy.exception.LucyException;
 import lucy.storage.Storage;
 import lucy.task.Task;
 import lucy.task.Todo;
 import lucy.ui.Ui;
 
-import java.util.ArrayList;
-
+/**
+ * Adds a todo task to the task list.
+ */
 public class AddTodoCommand extends Command {
     private final String description;
 

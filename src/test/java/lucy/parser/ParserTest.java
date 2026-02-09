@@ -1,12 +1,15 @@
 package lucy.parser;
 
-import lucy.command.Command;
-import lucy.command.ExitCommand;
-import lucy.command.AddTodoCommand;
-import lucy.exception.LucyException;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import lucy.command.AddTodoCommand;
+import lucy.command.Command;
+import lucy.command.ExitCommand;
+import lucy.exception.LucyException;
 
 public class ParserTest {
 

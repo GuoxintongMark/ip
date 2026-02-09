@@ -1,11 +1,11 @@
 package lucy.task;
 
-import lucy.exception.LucyException;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
+
+import lucy.exception.LucyException;
 
 /**
  * Represents a deadline task with a specific due date.
@@ -47,7 +47,9 @@ public class Deadline extends Task {
         this.by = by;
     }
 
-    public LocalDate getBy() { return by; }
+    public LocalDate getBy() {
+        return by;
+    }
 
     @Override
     public String toString() {

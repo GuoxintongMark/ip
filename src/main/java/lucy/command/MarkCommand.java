@@ -1,12 +1,15 @@
 package lucy.command;
 
+import java.util.ArrayList;
+
 import lucy.exception.LucyException;
 import lucy.storage.Storage;
 import lucy.task.Task;
 import lucy.ui.Ui;
 
-import java.util.ArrayList;
-
+/**
+ * Marks the task by the index.
+ */
 public class MarkCommand extends Command {
     private final int index;
 

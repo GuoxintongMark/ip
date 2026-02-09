@@ -21,11 +21,21 @@ public abstract class Task {
         this.isDone = false;
     }
 
-    public void markAsDone() { isDone = true; }
-    public void markUnDone() { isDone = false; }
-    protected String getStatusIcon() { return isDone ? "X" : " "; }
+    public void markAsDone() {
+        isDone = true;
+    }
 
-    protected String doneFlag() { return isDone ? "1" : "0"; }
+    public void markUnDone() {
+        isDone = false;
+    }
+
+    protected String getStatusIcon() {
+        return isDone ? "X" : " ";
+    }
+
+    protected String doneFlag() {
+        return isDone ? "1" : "0";
+    }
 
     @Override
     public String toString() {

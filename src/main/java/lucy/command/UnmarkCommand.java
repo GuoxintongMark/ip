@@ -1,12 +1,15 @@
 package lucy.command;
 
+import java.util.ArrayList;
+
 import lucy.exception.LucyException;
 import lucy.storage.Storage;
 import lucy.task.Task;
 import lucy.ui.Ui;
 
-import java.util.ArrayList;
-
+/**
+ * Unmarks the task by the index.
+ */
 public class UnmarkCommand extends Command {
     private final int index;
 
