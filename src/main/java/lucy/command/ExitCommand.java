@@ -1,10 +1,13 @@
 package lucy.command;
 
+import java.util.ArrayList;
+
 import lucy.task.Task;
 import lucy.ui.Ui;
 
-import java.util.ArrayList;
-
+/**
+ * Exits the chat.
+ */
 public class ExitCommand extends Command {
     @Override
     public void execute(ArrayList<Task> tasks, Ui ui) {

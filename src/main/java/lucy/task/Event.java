@@ -1,11 +1,11 @@
 package lucy.task;
 
-import lucy.exception.LucyException;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
+
+import lucy.exception.LucyException;
 
 /**
  * Represents an event task with a start and end date-time.
@@ -58,8 +58,13 @@ public class Event extends Task {
         this.to = to;
     }
 
-    public LocalDateTime getFrom() { return from; }
-    public LocalDateTime getTo() { return to; }
+    public LocalDateTime getFrom() {
+        return from;
+    }
+
+    public LocalDateTime getTo() {
+        return to;
+    }
 
     @Override
     public String toString() {

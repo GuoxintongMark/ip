@@ -1,10 +1,10 @@
 package lucy.command;
 
+import java.util.ArrayList;
+
 import lucy.exception.LucyException;
 import lucy.task.Task;
 import lucy.ui.Ui;
-
-import java.util.ArrayList;
 
 /**
  * Finds tasks whose descriptions contain a given keyword.

@@ -1,11 +1,14 @@
 package lucy.task;
 
-import lucy.exception.LucyException;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+import lucy.exception.LucyException;
 
 public class DeadlineTest {
 
@@ -17,8 +20,8 @@ public class DeadlineTest {
 
     @Test
     void constructor_invalidDateString_throwsLucyException() {
-        LucyException ex = assertThrows(LucyException.class,
-                () -> new Deadline("return book", "15-10-2019"));
+        LucyException ex = assertThrows(LucyException.class, ()
+                 -> new Deadline("return book", "15-10-2019"));
         assertTrue(ex.getMessage().contains("Invalid date format"));
         assertTrue(ex.getMessage().contains("yyyy-MM-dd"));
     }
