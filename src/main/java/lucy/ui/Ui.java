@@ -139,4 +139,15 @@ public class Ui {
         System.out.println("-> Now you have " + remaining + (remaining == 1 ? " task" : " tasks") + " in the list.");
         printLine();
     }
+
+    /**
+     * Displays a generic message.
+     *
+     * @param message Message to be displayed.
+     */
+    public void showMessage(String message) {
+        printLine();
+        System.out.println(message);
+        printLine();
+    }
 }

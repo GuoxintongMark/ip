@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="lucy.gui.MainWindow">
+    <children>
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="500.0" prefWidth="400.0"
+                    AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="40.0">
+            <content>
+                <VBox fx:id="dialogContainer" spacing="10.0" fillWidth="true" />
+            </content>
+        </ScrollPane>
+
+        <TextField fx:id="userInput"
+                   promptText="Type a command..."
+                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0"
+                   AnchorPane.bottomAnchor="0.0" prefHeight="40.0"
+                   onAction="#handleUserInput"/>
+
+        <Button text="Send"
+                AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+                prefHeight="40.0" prefWidth="80.0"
+                onAction="#handleUserInput"/>
+    </children>
+</AnchorPane>
+

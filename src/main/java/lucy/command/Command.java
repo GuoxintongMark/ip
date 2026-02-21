@@ -12,7 +12,7 @@ import lucy.ui.Ui;
  * with the user interface.
  */
 public abstract class Command {
-    public abstract void execute(ArrayList<Task> tasks, Ui ui) throws LucyException, LucyException;
+    public abstract String execute(ArrayList<Task> tasks) throws LucyException;
 
     public boolean isExit() {
         return false;

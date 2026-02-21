@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import lucy.exception.LucyException;
 import lucy.storage.Storage;
 import lucy.task.Task;
-import lucy.ui.Ui;
 
 /**
  * Marks the task by the index.
@@ -18,13 +17,15 @@ public class MarkCommand extends Command {
     }
 
     @Override
-    public void execute(ArrayList<Task> tasks, Ui ui) throws LucyException {
+    public String execute(ArrayList<Task> tasks) throws LucyException {
         if (index < 0 || index >= tasks.size()) {
             throw new LucyException("That task number does not exist.");
         }
         Task task = tasks.get(index);
         task.markAsDone();
         Storage.save(tasks);
-        ui.showMarked(task, true);
+
+        return "-> Nice! I've marked this task as done:\n"
+                + "->   " + task;
     }
 }
