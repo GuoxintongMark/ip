@@ -50,7 +50,7 @@ public class LucyApp {
                 String fullCommand = ui.readCommand();
                 Command c = parser.parse(fullCommand);
                 String reply = c.execute(tasks);
-                ui.showMessage(reply);
+                ui.showMessage(reply.split("\n"));
                 isExit = c.isExit();
             } catch (LucyException e) {
                 ui.showError(e.getMessage());

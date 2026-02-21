@@ -52,7 +52,7 @@ public class Ui {
      *
      * @param message The error message to be displayed.
      */
-    public void showError(String message) {
+    public void showError(String... message) {
         printLine();
         System.out.println("-> OOPS!!! " + message);
         printLine();
@@ -145,7 +145,7 @@ public class Ui {
      *
      * @param message Message to be displayed.
      */
-    public void showMessage(String message) {
+    public void showMessage(String... message) {
         printLine();
         System.out.println(message);
         printLine();
