@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import lucy.exception.LucyException;
 import lucy.storage.Storage;
 import lucy.task.Task;
-import lucy.ui.Ui;
 
 /**
  * Deletes the task by the index.
@@ -18,12 +17,16 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public void execute(ArrayList<Task> tasks, Ui ui) throws LucyException {
+    public String execute(ArrayList<Task> tasks) throws LucyException {
         if (index < 0 || index >= tasks.size()) {
             throw new LucyException("That task number does not exist.");
         }
         Task removed = tasks.remove(index);
         Storage.save(tasks);
-        ui.showDeleted(removed, tasks.size());
+
+        return "-> Noted. I've removed this task:\n"
+                + "->   " + removed + "\n"
+                + "-> Now you have " + tasks.size() + (tasks.size() == 1 ? " task" : " tasks")
+                + " in the list.";
     }
 }

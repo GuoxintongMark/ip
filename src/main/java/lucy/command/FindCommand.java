@@ -2,9 +2,7 @@ package lucy.command;
 
 import java.util.ArrayList;
 
-import lucy.exception.LucyException;
 import lucy.task.Task;
-import lucy.ui.Ui;
 
 /**
  * Finds tasks whose descriptions contain a given keyword.
@@ -23,15 +21,23 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public void execute(ArrayList<Task> tasks, Ui ui) throws LucyException {
+    public String execute(ArrayList<Task> tasks) {
         ArrayList<Task> matches = new ArrayList<>();
-
-        for (Task task : tasks) {
-            if (task.toString().toLowerCase().contains(keyword)) {
-                matches.add(task);
+        for (Task t : tasks) {
+            if (t.toString().toLowerCase().contains(keyword.toLowerCase())) {
+                matches.add(t);
             }
         }
 
-        ui.showFindResults(matches);
+        if (matches.isEmpty()) {
+            return "-> No matching tasks found.";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("-> Here are the matching tasks in your list:\n");
+        for (int i = 0; i < matches.size(); i++) {
+            sb.append("-> ").append(i + 1).append(". ").append(matches.get(i)).append("\n");
+        }
+        return sb.toString().trim();
     }
 }

@@ -6,7 +6,6 @@ import lucy.exception.LucyException;
 import lucy.storage.Storage;
 import lucy.task.Event;
 import lucy.task.Task;
-import lucy.ui.Ui;
 
 /**
  * Adds an event task to the task list.
@@ -30,10 +29,14 @@ public class AddEventCommand extends Command {
     }
 
     @Override
-    public void execute(ArrayList<Task> tasks, Ui ui) throws LucyException {
+    public String execute(ArrayList<Task> tasks) throws LucyException {
         Task task = new Event(description, from, to);
         tasks.add(task);
         Storage.save(tasks);
-        ui.showAdded(task, tasks.size());
+
+        return "-> Got it. I've added this task:\n"
+                + "->   " + task + "\n"
+                + "-> Now you have " + tasks.size() + (tasks.size() == 1 ? " task" : " tasks")
+                + " in the list.";
     }
 }

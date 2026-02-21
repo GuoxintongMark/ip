@@ -10,8 +10,8 @@ import lucy.ui.Ui;
  */
 public class ExitCommand extends Command {
     @Override
-    public void execute(ArrayList<Task> tasks, Ui ui) {
-        ui.showBye();
+    public String execute(ArrayList<Task> tasks) {
+        return "-> Bye. Hope to see you again soon! (*´∀`)~♥";
     }
 
     @Override
