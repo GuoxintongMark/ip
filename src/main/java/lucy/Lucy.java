@@ -20,6 +20,7 @@ public class Lucy {
     private final Parser parser = new Parser();
     private final ArrayList<Task> tasks;
     private Command lastCommand;
+    private boolean isExit = false;
 
     /**
      * Creates a Lucy instance and loads saved tasks.
@@ -44,6 +45,8 @@ public class Lucy {
         try {
             Command command = parser.parse(input);
 
+            isExit = command.isExit();
+
             if (command instanceof UndoCommand) {
                 if (lastCommand == null || !lastCommand.isUndoable()) {
                     return "-> Nothing to undo.";
@@ -64,5 +67,12 @@ public class Lucy {
         } catch (LucyException e) {
             return "-> OOPS!!! " + e.getMessage();
         }
+    }
+
+    /**
+     * Tell if exit the program.
+     */
+    public boolean isExit() {
+        return isExit;
     }
 }

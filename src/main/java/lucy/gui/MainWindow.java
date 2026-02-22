@@ -1,9 +1,12 @@
 package lucy.gui;
 
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import lucy.Lucy;
 
 /**
@@ -39,5 +42,10 @@ public class MainWindow {
         );
 
         userInput.clear();
+        if (lucy.isExit()) {
+            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+            pause.setOnFinished(event -> Platform.exit());
+            pause.play();
+        }
     }
 }
