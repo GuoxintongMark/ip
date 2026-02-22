@@ -3,6 +3,7 @@ package lucy;
 import java.util.ArrayList;
 
 import lucy.command.Command;
+import lucy.command.UndoCommand;
 import lucy.exception.LucyException;
 import lucy.parser.Parser;
 import lucy.storage.Storage;
@@ -18,6 +19,7 @@ public class Lucy {
 
     private final Parser parser = new Parser();
     private final ArrayList<Task> tasks;
+    private Command lastCommand;
 
     /**
      * Creates a Lucy instance and loads saved tasks.
@@ -41,8 +43,24 @@ public class Lucy {
     public String getResponse(String input) {
         try {
             Command command = parser.parse(input);
+
+            if (command instanceof UndoCommand) {
+                if (lastCommand == null || !lastCommand.isUndoable()) {
+                    return "-> Nothing to undo.";
+                }
+                String reply = lastCommand.undo(tasks);
+                lastCommand = null;
+                return reply;
+            }
+
             String reply = command.execute(tasks);
+
+            if (command.isUndoable()) {
+                lastCommand = command;
+            }
+
             return reply;
+
         } catch (LucyException e) {
             return "-> OOPS!!! " + e.getMessage();
         }

@@ -11,6 +11,8 @@ import lucy.task.Task;
  */
 public class DeleteCommand extends Command {
     private final int index;
+    private Task removedTask;
+    private int removedIndex;
 
     public DeleteCommand(int index) {
         this.index = index;
@@ -18,6 +20,8 @@ public class DeleteCommand extends Command {
 
     @Override
     public String execute(ArrayList<Task> tasks) throws LucyException {
+        removedTask = tasks.remove(index);
+        removedIndex = index;
         if (index < 0 || index >= tasks.size()) {
             throw new LucyException("That task number does not exist.");
         }
@@ -28,5 +32,17 @@ public class DeleteCommand extends Command {
                 + "->   " + removed + "\n"
                 + "-> Now you have " + tasks.size() + (tasks.size() == 1 ? " task" : " tasks")
                 + " in the list.";
+    }
+
+    @Override
+    public String undo(ArrayList<Task> tasks) throws LucyException {
+        tasks.add(removedIndex, removedTask);
+        Storage.save(tasks);
+        return "-> Undone: restored task " + removedTask;
+    }
+
+    @Override
+    public boolean isUndoable() {
+        return true;
     }
 }
