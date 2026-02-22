@@ -41,6 +41,11 @@ public class TaskList {
         return tasks.size();
     }
 
+    /**
+     * Returns whether this task list contains no tasks.
+     *
+     * @return {@code true} if the task list is empty, {@code false} otherwise.
+     */
     public boolean isEmpty() {
         assert tasks != null : "Task list should never be null";
         return tasks.isEmpty();
