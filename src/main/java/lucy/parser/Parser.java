@@ -9,6 +9,7 @@ import lucy.command.ExitCommand;
 import lucy.command.FindCommand;
 import lucy.command.ListCommand;
 import lucy.command.MarkCommand;
+import lucy.command.UndoCommand;
 import lucy.command.UnmarkCommand;
 import lucy.exception.LucyException;
 
@@ -30,6 +31,10 @@ public class Parser {
 
         if (input.equals("list")) {
             return new ListCommand();
+        }
+
+        if (input.equals("undo")) {
+            return new UndoCommand();
         }
 
         if (input.startsWith("todo")) {

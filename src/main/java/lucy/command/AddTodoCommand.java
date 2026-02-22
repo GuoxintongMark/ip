@@ -12,6 +12,7 @@ import lucy.task.Todo;
  */
 public class AddTodoCommand extends Command {
     private final String description;
+    private Task addedTask;
 
     public AddTodoCommand(String description) {
         this.description = description;
@@ -19,15 +20,27 @@ public class AddTodoCommand extends Command {
 
     @Override
     public String execute(ArrayList<Task> tasks) throws LucyException {
-        Task task = new Todo(description);
-        tasks.add(task);
+        addedTask = new Todo(description);
+        tasks.add(addedTask);
         Storage.save(tasks);
 
         return "-> Got it. I've added this task:\n"
-                + "->   " + task + "\n"
+                + "->   " + addedTask + "\n"
                 + "-> Now you have " + tasks.size()
                 + (tasks.size() == 1 ? " task" : " tasks")
                 + " in the list.";
+    }
+
+    @Override
+    public String undo(ArrayList<Task> tasks) throws LucyException {
+        tasks.remove(addedTask);
+        Storage.save(tasks);
+        return "-> Undone: removed task " + addedTask;
+    }
+
+    @Override
+    public boolean isUndoable() {
+        return true;
     }
 
 }
