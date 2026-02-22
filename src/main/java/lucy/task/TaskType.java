@@ -1,5 +1,6 @@
 package lucy.task;
 
+/* use chatGPT to help me generate enum*/
 public enum TaskType {
     TODO("T"),
     DEADLINE("D"),
