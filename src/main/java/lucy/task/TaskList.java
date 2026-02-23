@@ -122,6 +122,15 @@ public class TaskList {
         return matches;
     }
 
+    /**
+     * Returns an unmodifiable view of the tasks in this list.
+     * <p>
+     * The returned list is a defensive copy and cannot be modified.
+     * Any attempt to modify it will result in an
+     * {@link UnsupportedOperationException}.
+     *
+     * @return An unmodifiable list containing all tasks.
+     */
     public List<Task> asUnmodifiableList() {
         assert tasks != null : "Task list should never be null";
 
