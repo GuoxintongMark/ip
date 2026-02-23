@@ -42,7 +42,7 @@ public class TaskList {
     }
 
     /**
-     * Returns whether this task list contains no tasks.
+     * Returns this task list contains tasks or not.
      *
      * @return {@code true} if the task list is empty, {@code false} otherwise.
      */
