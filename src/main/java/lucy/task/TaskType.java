@@ -1,6 +1,11 @@
 package lucy.task;
 
-/* use chatGPT to help me generate enum*/
+/**
+ * Represents the different types of tasks supported by the application.
+ * <p>
+ * Each task type is associated with a short icon string
+ * used for display purposes in the user interface.
+ */
 public enum TaskType {
     TODO("T"),
     DEADLINE("D"),
