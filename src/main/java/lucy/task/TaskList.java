@@ -111,20 +111,14 @@ public class TaskList {
      */
     public List<Task> find(String keyword) {
         assert keyword != null : "Keyword should not be null";
+        assert tasks != null : "Task list should never be null";
+        assert tasks.stream().allMatch(t -> t != null) : "Task in list should not be null";
 
         String key = keyword.toLowerCase();
-        List<Task> matches = new ArrayList<>();
 
-        for (Task t : tasks) {
-            assert t != null : "Task in list should not be null";
-
-            if (t.description.toLowerCase().contains(key)) {
-                matches.add(t);
-            }
-        }
-
-        assert matches != null : "Find result should not be null";
-        return matches;
+        return tasks.stream()
+                .filter(t -> t.description.toLowerCase().contains(key))
+                .toList();
     }
 
     /**
