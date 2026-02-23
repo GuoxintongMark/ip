@@ -70,6 +70,11 @@ public class TaskList {
         return task;
     }
 
+    /**
+     * Adds the specified task to this task list.
+     *
+     * @param task The task to be added. Must not be {@code null}.
+     */
     public void add(Task task) {
         assert task != null : "Cannot add null task to TaskList";
 
